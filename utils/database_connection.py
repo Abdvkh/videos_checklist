@@ -1,6 +1,8 @@
 import typing
 import sqlite3
 
+# context manager
+
 class DatabaseConnection:
     def __init__(self, host):
         self.connection = None

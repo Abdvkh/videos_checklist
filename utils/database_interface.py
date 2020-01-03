@@ -1,7 +1,7 @@
 import sqlite3
 from typing import Dict, List, Union
 from pathlib import Path
-from database_connection import DatabaseConnection
+from .database_connection import DatabaseConnection
 
 
 #folder = Dict(int, Union(str, str, int))
@@ -16,13 +16,16 @@ def create_database(file: str) -> None:
 def add_all(file: str, root_path: str) -> None:
     root_items = _get_all_parent_folders(root_path)
     id = 0
+
     with DatabaseConnection(file) as connection:
         cursor = connection.cursor()
 
-        for id, folder in root_items['folders']:
-            cursor.execute(f'INSERT INTO checklist VALUES(?,?,"None",0)',(id + 1, folder))
+        for folder in root_items['folders']:
+            id += 1
+            cursor.execute(f'INSERT INTO checklist VALUES(?,?,"None",0)',(int(id), str(folder)))
         for non_folder_item in root_items['non_folder']:
-            cursor.execute(f'INSERT INTO checklist VALUES(?,"non_folder_items",?,0)',(id + 1, non_folder_item))
+            id += 1
+            cursor.execute(f'INSERT INTO checklist VALUES(?,"non_folder_items",?,0)',(int(id), str(non_folder_item)))
 
 
 
@@ -38,7 +41,7 @@ def get_all(file: str, root_path: str):# -> List[folder]:
 
 
 def _get_all_parent_folders(root_path: str):# -> Dict(List[str], List[str]):
-    path = Path('.')
+    path = Path(root_path)
     folders = [item for item in path.iterdir() if item.is_dir()]
     non_folder = [item for item in path.iterdir() if not item.is_dir()]
 
