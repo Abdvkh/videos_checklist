@@ -2,14 +2,17 @@ This program will help you to track the videos.
 
 Versions:
 
-[] - terminal version
-[] - Linux version
+[x] - terminal version
+
+[] - Linux software version
 
 
 Functionalities:
 
-[] - Folders in root directory list
+[x] - Folders in root directory list
+
 [] - Sub-list with consistence
+
 [] - marking the video as seen
 
 
